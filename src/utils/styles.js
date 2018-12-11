@@ -27,11 +27,11 @@ export const styles = theme => ({
   },
   card: {
     marginBottom: theme.spacing.unit * 5,
-    maxWidth: '80%',
-    margin: 'auto',
+    maxWidth: '100%',
+
   },
   avatar: {
-    backgroundColor: '#f44336',
+    backgroundColor: theme.palette.primary.main,
   },
   icon: {
     width: 30,

@@ -132,17 +132,17 @@ class EventListItem extends Component {
               </CardContent>
               <CardActions className={classes.actions} disableActionSpacing>
                 <IconButton color="primary" aria-label="Add to favorites">
-                  <Badge badgeContent={4} color="primary">
+                  <Badge badgeContent={4} color="secondary">
                     <FavoriteIcon className={classes.icon} color="primary" />
                   </Badge>
                 </IconButton>
-                <IconButton aria-label="Share">
-                  <ShareIcon />
-                </IconButton>
-                <IconButton aria-label="Share">
-                  <Badge badgeContent={20} color="primary">
+                <IconButton color="primary" aria-label="Share">
+                  <Badge badgeContent={20} color="secondary">
                     <PeopleIcon />
                   </Badge>
+                </IconButton>
+                <IconButton color="primary" aria-label="Share">
+                  <ShareIcon />
                 </IconButton>
                 <Button className={classes.rightSideButton} color="primary">View Event</Button>
               </CardActions>

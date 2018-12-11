@@ -12,9 +12,12 @@ const theme = createMuiTheme({
     type: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#f44336',
+      main: 'rgba(0,0,0,.75)',
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      main: 'rgba(244,67,54,.9)',
     },
   },
 });

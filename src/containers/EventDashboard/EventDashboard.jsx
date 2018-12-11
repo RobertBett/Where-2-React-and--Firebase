@@ -13,11 +13,18 @@ class EventDashboard extends Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={32}>
-          <Grid item xs={7}>
-            <Eventlist />
+          <Grid item xs={8}>
+            <Grid container spacing={32}>
+              <Grid item xs={12} sm={6}>
+                <Eventlist />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Eventlist />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={5}>
-            <Paper className={classes.paper}>xs=6</Paper>
+          <Grid item xs={4}>
+            <Paper className={classes.paper}>xs=4</Paper>
           </Grid>
         </Grid>
       </div>
