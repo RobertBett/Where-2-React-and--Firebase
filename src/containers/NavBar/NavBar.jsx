@@ -24,7 +24,7 @@ class NavBar extends Component {
               Where 2
             </Typography>
             <Button color="inherit">Login</Button>
-            <Button color="inherit">Sign out</Button>
+            <Button color="inherit">Sign in</Button>
           </Toolbar>
         </AppBar>
       </div>

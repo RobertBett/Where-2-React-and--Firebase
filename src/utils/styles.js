@@ -2,6 +2,11 @@ export const styles = theme => ({
   root: {
     flexGrow: 1,
   },
+  light: '#fff',
+  EventRoot: {
+    flexGrow: 1,
+    margin: theme.spacing.unit * 3,
+  },
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
@@ -27,7 +32,7 @@ export const styles = theme => ({
   },
   card: {
     marginBottom: theme.spacing.unit * 5,
-    maxWidth: '100%',
+    maxWidth: '500px',
 
   },
   avatar: {
@@ -42,7 +47,7 @@ export const styles = theme => ({
     display: 'block',
     overflow: 'hidden',
     width: '100%',
-    maxHeight: 500,
+    maxHeight: 300,
     maxWidth: 1000,
   },
   rightSideButton: {

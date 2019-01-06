@@ -11,51 +11,34 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from '@material-ui/icons/FavoriteBorder';
 import ShareIcon from '@material-ui/icons/Share';
-import PeopleIcon from '@material-ui/icons/People';
+import PeopleIcon from '@material-ui/icons/PeopleOutline';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import { styles } from '../../../utils/styles';
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const tutorialSteps = [
-  {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
-    imgPath:
-        'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bird',
-    imgPath:
-        'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Bali, Indonesia',
-    imgPath:
-        'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
-  },
-  {
-    label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
-    imgPath:
-        'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-  {
-    label: 'Goč, Serbia',
-    imgPath:
-        'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
-  },
-];
 
 class EventListItem extends Component {
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       activeStep: 0,
+      anchorEl: null,
     };
+    this.handleClick = this.handleClick.bind(this);
+  }
 
       handleNext = () => {
         this.setState(prevState => ({
@@ -73,16 +56,61 @@ class EventListItem extends Component {
         this.setState({ activeStep });
       };
 
+      handleClose = () => {
+        this.setState({ anchorEl: null });
+      };
+
+      handleClick(event) {
+        this.setState({ anchorEl: event.currentTarget });
+      }
+
+
+      renderAttendeeList = () => {
+        const { anchorEl } = this.state;
+        const ITEM_HEIGHT = 48;
+        const open = Boolean(anchorEl);
+        return (
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={this.handleClose}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: 200,
+              },
+            }}
+          >
+            <MenuList dense>
+              {this.props.event.attendees.map(attendee => (
+                <MenuItem key={attendee.id} button>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={`${attendee.name} + profile photo`}
+                      src={attendee.photoURL}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary={attendee.name} />
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        );
+      }
+
+
       render() {
-        const { classes, theme } = this.props;
+        const { classes, theme, event } = this.props;
         const { activeStep } = this.state;
-        const maxSteps = tutorialSteps.length;
+        const maxSteps = event.eventPhotos.length;
         return (
           <div>
+            { this.renderAttendeeList() }
             <Card className={classes.card}>
               <CardHeader
                 avatar={(
-                  <Avatar aria-label="Recipe" color="primary" className={classes.avatar}>
+                  <Avatar aria-label="Recipe" color="primary" src={event.hostPhotoURL} className={classes.avatar}>
               R
                   </Avatar>
                 )}
@@ -91,8 +119,8 @@ class EventListItem extends Component {
                     <MoreVertIcon />
                   </IconButton>
                 )}
-                title="Shrimp and Chorizo Paella"
-                subheader="September 14, 2016"
+                title={event.title}
+                subheader={event.date}
               />
               <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -100,8 +128,8 @@ class EventListItem extends Component {
                 onChangeIndex={this.handleStepChange}
                 enableMouseEvents
               >
-                {tutorialSteps.map((step, index) => (
-                  <div key={step.label}>
+                {event.eventPhotos.map((step, index) => (
+                  <div key={step.id}>
                     {Math.abs(activeStep - index) <= 2 ? (
                       <img className={classes.img} src={step.imgPath} alt={step.label} />
                     ) : null}
@@ -126,18 +154,17 @@ class EventListItem extends Component {
               />
               <CardContent>
                 <Typography component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                  {event.description}
                 </Typography>
               </CardContent>
               <CardActions className={classes.actions} disableActionSpacing>
                 <IconButton color="primary" aria-label="Add to favorites">
-                  <Badge badgeContent={4} color="secondary">
+                  <Badge badgeContent={event.attendees.length} color="secondary">
                     <FavoriteIcon className={classes.icon} color="primary" />
                   </Badge>
                 </IconButton>
-                <IconButton color="primary" aria-label="Share">
-                  <Badge badgeContent={20} color="secondary">
+                <IconButton color="primary" aria-label="Share" onClick={this.handleClick}>
+                  <Badge badgeContent={event.favoritedBy.length} color="secondary">
                     <PeopleIcon />
                   </Badge>
                 </IconButton>
@@ -154,6 +181,7 @@ class EventListItem extends Component {
 
 
 EventListItem.propTypes = {
+  event: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 };

@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+// pick utils
+import DateFnsUtils from '@date-io/date-fns';
+
 import './index.css';
 import App from './App';
 
@@ -12,7 +16,8 @@ const theme = createMuiTheme({
     type: 'light',
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: 'rgba(0,0,0,.75)',
+      light: '#fff',
+      main: 'rgba(48, 48, 48, .9)',
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
@@ -25,7 +30,9 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <BrowserRouter>
-      <App />
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <App />
+      </MuiPickersUtilsProvider>
     </BrowserRouter>
   </MuiThemeProvider>,
   document.getElementById('root'),
