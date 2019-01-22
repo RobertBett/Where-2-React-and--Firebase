@@ -5,10 +5,10 @@ import EventListItem from './EventListItem';
 
 class Eventlist extends Component {
   renderEventsList() {
-    const { events } = this.props;
+    const { events, editEvent } = this.props;
     return events.map(event => (
       <Grid key={event.id} item xs={12} sm={6}>
-        <EventListItem event={event} />
+        <EventListItem editEvent={editEvent} event={event} />
       </Grid>
     ));
   }
@@ -26,6 +26,7 @@ class Eventlist extends Component {
 
 Eventlist.propTypes = {
   events: PropTypes.array.isRequired,
+  editEvent: PropTypes.func.isRequired,
 };
 
 export default Eventlist;

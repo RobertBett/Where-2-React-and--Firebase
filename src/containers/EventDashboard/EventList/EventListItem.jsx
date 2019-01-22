@@ -89,7 +89,10 @@ class EventListItem extends Component {
                     <Avatar
                       alt={`${attendee.name} + profile photo`}
                       src={attendee.photoURL}
-                    />
+                      color="primary"
+                    >
+                      {attendee.name.charAt(0).toUpperCase()}
+                    </Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={attendee.name} />
                 </MenuItem>
@@ -101,7 +104,9 @@ class EventListItem extends Component {
 
 
       render() {
-        const { classes, theme, event } = this.props;
+        const {
+          editEvent, classes, theme, event,
+        } = this.props;
         const { activeStep } = this.state;
         const maxSteps = event.eventPhotos.length;
         return (
@@ -171,7 +176,7 @@ class EventListItem extends Component {
                 <IconButton color="primary" aria-label="Share">
                   <ShareIcon />
                 </IconButton>
-                <Button className={classes.rightSideButton} color="primary">View Event</Button>
+                <Button onClick={editEvent(event)} className={classes.rightSideButton} color="primary">View Event</Button>
               </CardActions>
             </Card>
           </div>
@@ -184,6 +189,7 @@ EventListItem.propTypes = {
   event: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  editEvent: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(EventListItem);

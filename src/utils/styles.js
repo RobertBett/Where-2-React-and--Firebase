@@ -1,6 +1,8 @@
+const drawerWidth = 240;
 export const styles = theme => ({
+
   root: {
-    flexGrow: 1,
+    display: 'flex',
   },
   light: '#fff',
   EventRoot: {
@@ -11,20 +13,14 @@ export const styles = theme => ({
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
   },
-
-  // Nav Bar Styling
-  grow: {
-    flexGrow: 1,
-  },
-  NavbarSpacing: {
-    marginBottom: theme.spacing.unit * 2,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+  formButton: {
+    color: '#fff',
   },
 
   // Event Dashboard styles
+  mobileStepper: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
   media: {
   },
   actions: {
@@ -33,6 +29,7 @@ export const styles = theme => ({
   card: {
     marginBottom: theme.spacing.unit * 5,
     maxWidth: '500px',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
 
   },
   avatar: {
@@ -54,4 +51,64 @@ export const styles = theme => ({
     marginLeft: 'auto',
   },
 
+  // SIDE BAR STYLING
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  listItemDrawer: {
+    color: 'rgba(255, 255, 255, 0.5)',
+  },
+  menuButton: {
+    marginLeft: 4,
+    marginRight: 36,
+    color: 'rgba(255, 255, 255, 0.5)',
+  },
+  hide: {
+    display: 'none',
+    color: 'rgba(255, 255, 255, 0.5)',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    backgroundColor: 'rgba(48, 48, 48, .5)',
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing.unit * 7 + 1,
+    backgroundColor: 'rgba(48, 48, 48, .5)',
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+  },
 });
