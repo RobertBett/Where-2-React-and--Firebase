@@ -3,20 +3,26 @@ export const styles = theme => ({
 
   root: {
     display: 'flex',
+    height: '100%',
   },
   light: '#fff',
   EventRoot: {
     flexGrow: 1,
     margin: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 4,
   },
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
   formButton: {
     color: '#fff',
   },
-
+  fab: {
+    marginLeft: '40%',
+    marginTop: '5px',
+  },
   // Event Dashboard styles
   mobileStepper: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -29,7 +35,7 @@ export const styles = theme => ({
   card: {
     marginBottom: theme.spacing.unit * 5,
     maxWidth: '500px',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
 
   },
   avatar: {
@@ -70,6 +76,23 @@ export const styles = theme => ({
   listItemDrawer: {
     color: 'rgba(255, 255, 255, 0.5)',
   },
+  navLinkActive: {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+      color: '#fff',
+    },
+  },
+  navLink: {
+    marginTop: '10px',
+    marginBottom: '10px',
+  },
+
+  '& a:active': {
+    backgroundColor: theme.palette.secondary.main,
+    color: '#fff',
+  },
   menuButton: {
     marginLeft: 4,
     marginRight: 36,
@@ -83,6 +106,7 @@ export const styles = theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    height: '100%',
   },
   drawerOpen: {
     width: drawerWidth,

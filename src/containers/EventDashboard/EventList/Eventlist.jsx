@@ -7,7 +7,7 @@ class Eventlist extends Component {
   renderEventsList() {
     const { events, editEvent } = this.props;
     return events.map(event => (
-      <Grid key={event.id} item xs={12} sm={6}>
+      <Grid container spacing={8} key={event.id} item xs={12} sm={6}>
         <EventListItem editEvent={editEvent} event={event} />
       </Grid>
     ));
