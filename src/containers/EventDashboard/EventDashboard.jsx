@@ -7,7 +7,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import { Tab } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/AccessTime';
-import Trending from '@material-ui/icons/TrendingUp';
+import Trending from '@material-ui/icons/Whatshot';
 import { styles } from '../../utils/styles';
 import Eventlist from './EventList/EventList';
 import TabContainer from '../../utils/TabContainer';
@@ -125,7 +125,7 @@ class EventDashboard extends Component {
     const { value } = this.state;
     return (
       <div className={classes.EventRoot}>
-        <Grid justify="center" container spacing={8}>
+        <Grid justify="center" container spacing={16}>
           <Grid item xs={9}>
 
             <Eventlist editEvent={this.handleEditEvent} events={this.state.events} />
@@ -135,16 +135,27 @@ class EventDashboard extends Component {
               <Tabs
                 value={this.state.value}
                 onChange={this.handleChange}
+                variant="standard"
+                scrollable={false}
                 indicatorColor="secondary"
               >
-                <Tab label="Trending Events" icon={<Trending />} />
-                <Tab label=" Recent Activity" icon={<TimelineIcon />} />
+                <Tab classes={{ selected: classes.tabColor }} className={classes.tabText} label="Trending Events" icon={<Trending />} />
+                <Tab classes={{ selected: classes.tabColor }} className={classes.tabText} label=" Recent Activity" icon={<TimelineIcon />} />
               </Tabs>
               { value === 0
                 && (
                   <TabContainer>
                     <Paper className={classes.paper}>
                     Whats Trending
+                    </Paper>
+                  </TabContainer>
+                )
+              }
+              { value === 1
+                && (
+                  <TabContainer>
+                    <Paper className={classes.paper}>
+                      Recent Activity
                     </Paper>
                   </TabContainer>
                 )
@@ -161,4 +172,4 @@ EventDashboard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EventDashboard);
+export default withStyles(styles, { withTheme: true })(EventDashboard);

@@ -25,6 +25,9 @@ const theme = createMuiTheme({
       main: 'rgba(244,67,54,.9)',
     },
   },
+  typography: {
+    htmlFontWeight: '600',
+  },
 });
 
 ReactDOM.render(

@@ -23,6 +23,48 @@ export const styles = theme => ({
     marginLeft: '40%',
     marginTop: '5px',
   },
+  tabText: {
+    textTransform: 'capitalize',
+    fontSize: '0.9rem',
+    fontWeight: '600',
+  },
+  tabColor: {
+    color: theme.palette.secondary.main,
+  },
+  textFieldColor: {
+    borderColor: theme.palette.secondary.main,
+  },
+  radioButtonLabel: {
+    paddingLeft: '14px',
+    paddingTop: '14px',
+    paddingBottom: '14px',
+  },
+  radioButtonForm: {
+    padding: '4px 20px',
+  },
+  settingsHeader: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontWeight: '600',
+    backgroundColor: 'rgba(48, 48, 48, .5)',
+    padding: '15px',
+    textAlign: 'center',
+    borderRadius: '2px',
+  },
+  settingsNav: {
+    backgroundColor: 'rgba(48, 48, 48, .5)',
+    color: 'rgba(255, 255, 255, 0.8)',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    },
+    borderRadius: '2px',
+  },
+  chipSelect: {
+    overflowX: 'scroll',
+  },
+  chip: {
+    padding: '10px',
+    margin: '5px',
+  },
   // Event Dashboard styles
   mobileStepper: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -56,7 +98,6 @@ export const styles = theme => ({
   rightSideButton: {
     marginLeft: 'auto',
   },
-
   // SIDE BAR STYLING
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -64,6 +105,7 @@ export const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    // backgroundColor: 'rgba(244,67,54,.9)',
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -75,6 +117,7 @@ export const styles = theme => ({
   },
   listItemDrawer: {
     color: 'rgba(255, 255, 255, 0.5)',
+    fontWeight: '600',
   },
   navLinkActive: {
     backgroundColor: theme.palette.secondary.main,

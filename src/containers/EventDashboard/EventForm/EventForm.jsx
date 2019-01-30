@@ -20,50 +20,10 @@ import TabContainer from '../../../utils/TabContainer';
 class EventForm extends Component {
   constructor(props) {
     super(props);
-    this.state = this.props.selectedEvent || {
-      title: '',
-      DateTime: new Date(),
-      city: '',
-      venue: '',
-      hostedBy: '',
+    this.state = {
+      value: 0,
     };
-    console.log(this.props.selectedEvent);
     this.handleForm = this.handleForm.bind(this);
-  }
-
-
-  componentDidMount() {
-    if (this.props.selectedEvent) {
-      const {
-        title, DateTime, city, venue, hostedBy,
-      } = this.props.selectedEvent;
-      this.setState({
-        title,
-        DateTime,
-        city,
-        venue,
-        hostedBy,
-      });
-    }
-  }
-
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedEvent !== this.props.selectedEvent) {
-      console.log('NEXT', nextProps.selectedEvent, 'CURRENT', this.props.selectedEvent);
-      if (this.props.selectedEvent) {
-        const {
-          title, DateTime, city, venue, hostedBy,
-        } = this.props.selectedEvent;
-        this.setState({
-          title,
-          DateTime,
-          city,
-          venue,
-          hostedBy,
-        });
-      }
-    }
   }
 
 
@@ -85,110 +45,115 @@ class EventForm extends Component {
 
   render() {
     const { classes } = this.props;
+    const { value } = this.state;
     return (
       <div className={classes.EventRoot}>
-        <Grid justify="center" container spacing={0}>
+        <Grid justify="center" container spacing={8}>
           <Grid item xs={12} sm={4}>
             <AppBar position="static" color="primary">
               <Tabs
                 value={this.state.value}
                 onChange={this.handleChange}
                 variant="fullWidth"
+                centered
                 indicatorColor="secondary"
               >
-                <Tab label="Create Event" icon={<AddEventIcon />} />
+                <Tab classes={{ selected: classes.tabColor }} className={classes.tabText} label="Create Event" icon={<AddEventIcon />} />
               </Tabs>
-              <TabContainer>
-                <form onSubmit={this.FormSubmit}>
-                  <Paper className={classes.paper}>
-                    <TextField
-                      id="title"
-                      name="title"
-                      value={this.state.title}
-                      onChange={this.handleForm}
-                      autoComplete="title"
-                      variant="outlined"
-                      label="Event Title"
-                      autoFocus
-                      fullWidth
-                    />
-                    <DatePicker
-                      margin="normal"
-                      label="What Day is the Event"
-                      name="eventDate"
-                      onChange={this.handleDateChange}
-                      value={this.state.DateTime}
-                      variant="outlined"
-                      fullWidth
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <DateIcon />
-                          </InputAdornment>),
-                      }}
-                    />
-                    <TimePicker
-                      margin="normal"
-                      label="What Time is the Event"
-                      name="eventTime"
-                      onChange={this.handleDateChange}
-                      value={this.state.DateTime}
-                      variant="outlined"
-                      fullWidth
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <TimeIcon />
-                          </InputAdornment>),
-                      }}
+              { value === 0 && (
+                <TabContainer>
+                  <form onSubmit={this.FormSubmit}>
+                    <Paper className={classes.paper}>
+                      <TextField
+                        autoFocus
+                        id="title"
+                        name="title"
+                        value={this.state.title}
+                        onChange={this.handleForm}
+                        autoComplete="title"
+                        variant="outlined"
+                        label="Event Title"
+                        className={classes.textFieldColor}
+                        fullWidth
+                      />
+                      <DatePicker
+                        margin="normal"
+                        label="What Day is the Event"
+                        name="eventDate"
+                        onChange={this.handleDateChange}
+                        value={this.state.DateTime}
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <DateIcon />
+                            </InputAdornment>),
+                        }}
+                      />
+                      <TimePicker
+                        margin="normal"
+                        label="What Time is the Event"
+                        name="eventTime"
+                        color="secondary"
+                        onChange={this.handleDateChange}
+                        value={this.state.DateTime}
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <TimeIcon />
+                            </InputAdornment>),
+                        }}
+                      />
+                      <TextField
+                        name="city"
+                        value={this.state.city}
+                        onChange={this.handleForm}
+                        id="City"
+                        label="City"
+                        autoComplete="City"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                      />
+                      <TextField
+                        required
+                        name="venue"
+                        value={this.state.venue}
+                        onChange={this.handleForm}
+                        id="Venue"
+                        autoComplete="Venue"
+                        label="Venue"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                      />
 
-                    />
-                    <TextField
-                      name="city"
-                      value={this.state.city}
-                      onChange={this.handleForm}
-                      id="City"
-                      label="City"
-                      autoComplete="City"
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                    />
-                    <TextField
-                      required
-                      name="venue"
-                      value={this.state.venue}
-                      onChange={this.handleForm}
-                      id="Venue"
-                      autoComplete="Venue"
-                      label="Venue"
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                    />
-
-                    <TextField
-                      name="hostedBy"
-                      value={this.state.hostedBy}
-                      onChange={this.handleForm}
-                      label="Hosted By"
-                      autoComplete="Hosted By"
-                      variant="outlined"
-                      margin="normal"
-                      fullWidth
-                    />
-                    <Fab
-                      color="primary"
-                      aria-label="Add"
-                      className={classes.fab}
-                      onClick={this.FormSubmit}
-                      type="submit"
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </Paper>
-                </form>
-              </TabContainer>
+                      <TextField
+                        name="hostedBy"
+                        value={this.state.hostedBy}
+                        onChange={this.handleForm}
+                        label="Hosted By"
+                        autoComplete="Hosted By"
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                      />
+                      <Fab
+                        color="primary"
+                        aria-label="Add"
+                        className={classes.fab}
+                        onClick={this.FormSubmit}
+                        type="submit"
+                      >
+                        <AddIcon />
+                      </Fab>
+                    </Paper>
+                  </form>
+                </TabContainer>
+              )}
             </AppBar>
           </Grid>
         </Grid>
@@ -198,7 +163,6 @@ class EventForm extends Component {
 }
 
 EventForm.propTypes = {
-  selectedEvent: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 

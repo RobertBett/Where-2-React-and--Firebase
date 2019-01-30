@@ -21,7 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AllEventIcon from '@material-ui/icons/EventNote';
+import DiscoverEventsIcon from '@material-ui/icons/Explore';
 import CreateEventIcon from '@material-ui/icons/Event';
 import { styles } from '../../utils/styles';
 
@@ -43,14 +43,14 @@ class Navigation extends Component {
         const navItems = [
           {
             link: '/events',
-            icon: <AllEventIcon />,
-            text: 'All Events',
+            icon: <DiscoverEventsIcon />,
+            text: 'Discover Events',
 
           },
           {
             link: '/createEvent',
             icon: <CreateEventIcon />,
-            text: 'Discover Events',
+            text: 'Create Events',
 
           },
           {
@@ -93,8 +93,8 @@ class Navigation extends Component {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Typography className={classes.listItemDrawer} variant="h6" color="inherit" noWrap>
-              Where 2
+                <Typography className={classes.listItemDrawer} variant="h5" color="inherit" noWrap>
+                  InstaEvent
                 </Typography>
               </Toolbar>
             </AppBar>
