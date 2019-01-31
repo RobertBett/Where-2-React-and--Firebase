@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   withStyles, Grid, Paper, TextField, Fab, Typography,
   FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, InputAdornment,
-  InputLabel, Select, Input, MenuItem, Chip,
+  InputLabel, Select, Input, MenuItem, Chip, Zoom,
 } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
 import DateIcon from '@material-ui/icons/Event';
@@ -20,6 +20,7 @@ class AboutPage extends Component {
         'Visual Arts ',
         'Performing Arts ',
       ],
+      extend: false,
     };
   }
 
@@ -41,8 +42,15 @@ class AboutPage extends Component {
     }));
   }
 
+  handleButton =() => {
+    this.setState(prevState => ({
+      extend: !prevState.extend,
+    }));
+  }
+
   render() {
     const { classes } = this.props;
+    const { extend } = this.state;
     const categories = [
       'Music',
       'Visual Arts ',
@@ -56,7 +64,6 @@ class AboutPage extends Component {
       'Sports & Active Life',
       'Nightlife',
       'Kids & Family',
-      'Other',
     ];
     return (
       <div>
@@ -65,7 +72,7 @@ class AboutPage extends Component {
             <Grid item xs={12} sm={8}>
               <form onSubmit={this.FormSubmit}>
                 <Typography
-                  className={classes.settingsHeader}
+                  className={classes.formHeaders}
                   variant="h6"
                   color="inherit"
                   noWrap
@@ -105,8 +112,8 @@ class AboutPage extends Component {
                   <DatePicker
                     keyboard
                     margin="normal"
-                    label="What Day is the Event"
-                    name="eventDate"
+                    label="Whats Your Date of Birth ?"
+                    name="DOB"
                     onChange={this.handleDateChange}
                     value={this.state.DateTime}
                     variant="outlined"
@@ -139,7 +146,7 @@ class AboutPage extends Component {
                       variant="outlined"
                       color="primary"
                       value={this.state.category}
-                      onChange={this.handleCheck}
+                      onChange={this.handleChange}
                       input={<Input id="select-multiple-chip" />}
                       className={classes.chipSelect}
                       renderValue={selected => (
@@ -210,15 +217,35 @@ class AboutPage extends Component {
                     margin="normal"
                     fullWidth
                   />
-                  <Fab
-                    color="primary"
-                    aria-label="Add"
-                    className={classes.fab}
-                    onClick={this.FormSubmit}
-                    type="submit"
-                  >
-                    <UpdateIcon />
-                  </Fab>
+                  { extend
+                    ? (
+                      <Zoom in={this.state.extend} style={{ transitionDelay: this.state.extend ? '200ms' : '0ms' }}>
+                        <Fab
+                          color="primary"
+                          aria-label="Add"
+                          className={classes.fabExtended}
+                          onClick={this.FormSubmit}
+                          type="submit"
+                          onMouseLeave={this.handleButton}
+                          variant="extended"
+                        >
+                          <UpdateIcon className={classes.fabExtendedIcon} />
+                          {this.state.extend && 'Update Profile'}
+                        </Fab>
+                      </Zoom>
+                    )
+                    : (
+                      <Fab
+                        color="primary"
+                        aria-label="Add"
+                        className={classes.fab}
+                        onClick={this.FormSubmit}
+                        type="submit"
+                        onMouseEnter={this.handleButton}
+                      >
+                        <UpdateIcon />
+                      </Fab>
+                    )}
                 </Paper>
               </form>
             </Grid>

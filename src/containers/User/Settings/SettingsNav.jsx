@@ -38,7 +38,7 @@ const SettingsNav = ({ classes }) => (
           component="nav"
           subheader={(
             <Typography
-              className={classes.settingsHeader}
+              className={classes.formHeaders}
               variant="h6"
               color="inherit"
               noWrap

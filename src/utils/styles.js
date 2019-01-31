@@ -23,6 +23,13 @@ export const styles = theme => ({
     marginLeft: '40%',
     marginTop: '5px',
   },
+  fabExtended: {
+    marginLeft: '30%',
+    marginTop: '5px',
+  },
+  fabExtendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
   tabText: {
     textTransform: 'capitalize',
     fontSize: '0.9rem',
@@ -42,7 +49,7 @@ export const styles = theme => ({
   radioButtonForm: {
     padding: '4px 20px',
   },
-  settingsHeader: {
+  formHeaders: {
     color: 'rgba(255, 255, 255, 0.5)',
     fontWeight: '600',
     backgroundColor: 'rgba(48, 48, 48, .5)',
