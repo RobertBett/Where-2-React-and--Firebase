@@ -1,15 +1,25 @@
+import 'date-fns';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
-// pick utils
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import DateFnsUtils from '@date-io/date-fns';
+import reducers from './store/reducers';
 
 import './index.css';
 import App from './App';
 
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const logger = store => next => (action) => {
+  const result = next(action);
+  console.log('[CURRENT ACTION]', action, '[CURRENT STATE]', store.getState());
+  return result;
+};
 
 const theme = createMuiTheme({
   palette: {
@@ -31,12 +41,14 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
+  <Provider store={createStore(reducers, composeEnhancers(applyMiddleware(logger, thunk)))}>
     <BrowserRouter>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <App />
-      </MuiPickersUtilsProvider>
+      <MuiThemeProvider theme={theme}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <App />
+        </MuiPickersUtilsProvider>
+      </MuiThemeProvider>
     </BrowserRouter>
-  </MuiThemeProvider>,
+  </Provider>,
   document.getElementById('root'),
 );

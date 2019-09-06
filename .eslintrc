@@ -36,6 +36,7 @@
             "linebreak-style": [ "error", "unix" ],
             "quotes": [ "error", "single" ],
             "semi": [ "error", "always"],
+            "max-len": [0],
             "react/jsx-boolean-value": 0,
             "react/jsx-closing-bracket-location": 1,
             "react/jsx-indent-props": [1, 2],

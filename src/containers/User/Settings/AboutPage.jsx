@@ -35,6 +35,10 @@ class AboutPage extends Component {
     this.setState({ category: event.target.value });
   };
 
+  handleDateChange = (date) => {
+    this.setState({ DateTime: date });
+  };
+
   handleDelete = (categoryToDelete) => {
     this.setState(state => ({
       category:

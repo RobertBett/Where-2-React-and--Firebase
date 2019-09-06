@@ -3,28 +3,24 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import {
+  Card, CardHeader, CardContent, CardActions, Avatar, IconButton, Typography, MobileStepper, Button,
+} from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/WhatshotOutlined';
 import ShareIcon from '@material-ui/icons/Share';
 import PeopleIcon from '@material-ui/icons/PeopleOutline';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Button from '@material-ui/core/Button';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { Link } from 'react-router-dom';
 import { styles } from '../../../utils/styles';
+import { formatEventTime } from '../../../utils/dateParser';
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -104,9 +100,7 @@ class EventListItem extends Component {
 
 
       render() {
-        const {
-          editEvent, classes, theme, event,
-        } = this.props;
+        const { classes, theme, event } = this.props;
         const { activeStep } = this.state;
         const maxSteps = event.eventPhotos.length;
         return (
@@ -125,7 +119,7 @@ class EventListItem extends Component {
                   </IconButton>
                 )}
                 title={event.title}
-                subheader={event.date}
+                subheader={formatEventTime(new Date(event.DateTime).toISOString())}
               />
               <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -176,7 +170,7 @@ class EventListItem extends Component {
                 <IconButton color="primary" aria-label="Share">
                   <ShareIcon />
                 </IconButton>
-                <Button onClick={editEvent(event)} className={classes.rightSideButton} color="primary">View Event</Button>
+                <Button component={Link} to={`/event/${event.id}`} className={classes.rightSideButton} color="primary">View Event</Button>
               </CardActions>
             </Card>
           </div>
@@ -189,7 +183,6 @@ EventListItem.propTypes = {
   event: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  editEvent: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(EventListItem);

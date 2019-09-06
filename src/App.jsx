@@ -37,7 +37,7 @@ class App extends React.Component {
           <Switch>
             <Route path="/" exact component={EventDashboard} />
             <Route path="/events" exact component={EventDashboard} />
-            <Route path="/events/:id" exact component={EventDetailedPage} />
+            <Route path="/event/:id" exact component={EventDetailedPage} />
             <Route path="/people" exact component={PeopleDashboard} />
             <Route path="/profile/:id" exact component={UserDetailedPage} />
             <Route path="/settings" component={SettingsDashboard} />

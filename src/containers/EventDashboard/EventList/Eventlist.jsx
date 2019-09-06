@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
 import EventListItem from './EventListItem';
 
 class Eventlist extends Component {
@@ -24,9 +25,13 @@ class Eventlist extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  events: state.rootReducer.events,
+});
+
 Eventlist.propTypes = {
   events: PropTypes.array.isRequired,
   editEvent: PropTypes.func.isRequired,
 };
 
-export default Eventlist;
+export default connect(mapStateToProps, null)(Eventlist);

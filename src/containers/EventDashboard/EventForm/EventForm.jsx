@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
-import { TimePicker, DatePicker } from 'material-ui-pickers';
+import { connect } from 'react-redux';
 import {
   TextField, Typography, Paper, InputAdornment, Grid, Fab, Zoom, FormControl, InputLabel,
-  Select, Input, MenuItem, Chip,
+  Select, Input, MenuItem, Chip, CircularProgress,
 } from '@material-ui/core';
+
+import classNames from 'classnames';
 import TimeIcon from '@material-ui/icons/AccessTime';
 import DateIcon from '@material-ui/icons/Event';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+import CheckIcon from '@material-ui/icons/Check';
+import { TimePicker, DatePicker } from 'material-ui-pickers';
 import { styles } from '../../../utils/styles';
+import { getEvents } from '../../../store/actions';
 
 class EventForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
       extend: false,
+      eventInfo: {
+        title: '',
+        city: '',
+        venue: '',
+        hostedBy: '',
+        description: '',
+      },
       category: [],
+      DateTime: new Date('January 1 2019'),
     };
     this.handleForm = this.handleForm.bind(this);
   }
@@ -25,7 +37,11 @@ class EventForm extends Component {
 
   FormSubmit = (event) => {
     event.preventDefault();
-    this.handleCreateEvent(this.state);
+    const { DateTime, eventInfo, category } = this.state;
+    const newEvent = { ...eventInfo, DateTime, category };
+    console.log(newEvent, ['WHATS IN HERE??']);
+    this.setState({ extend: false });
+    this.props.getEvents(newEvent);
   }
 
   handleDateChange = (date) => {
@@ -44,8 +60,7 @@ class EventForm extends Component {
 
   handleDelete = (categoryToDelete) => {
     this.setState(state => ({
-      category:
-      state.category.filter(item => item !== categoryToDelete),
+      category: state.eventInfo.category.filter(item => item !== categoryToDelete),
     }));
   }
 
@@ -57,14 +72,15 @@ class EventForm extends Component {
   })
 
   handleForm(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    const { target } = event;
+    this.setState(state => ({
+      eventInfo: { ...state.eventInfo, [target.name]: target.value },
+    }));
   }
 
 
   render() {
-    const { classes } = this.props;
+    const { classes, loading, success } = this.props;
     const { extend } = this.state;
     const categories = [
       'Music',
@@ -80,6 +96,11 @@ class EventForm extends Component {
       'Nightlife',
       'Kids & Family',
     ];
+    if (success) {
+      setTimeout(() => {
+        this.props.history.push('/events');
+      }, 1000);
+    }
     return (
       <div className={classes.EventRoot}>
         <Grid justify="center" container spacing={8}>
@@ -98,7 +119,7 @@ class EventForm extends Component {
                   autoFocus
                   id="title"
                   name="title"
-                  value={this.state.title}
+                  value={this.state.eventInfo.title}
                   onChange={this.handleForm}
                   autoComplete="title"
                   variant="outlined"
@@ -107,16 +128,17 @@ class EventForm extends Component {
                   fullWidth
                 />
                 <DatePicker
+                  keyboard
                   margin="normal"
-                  label="What Day is the Event"
-                  name="eventDate"
+                  label="Whats Your Date of Birth ?"
+                  name="DOB"
                   onChange={this.handleDateChange}
                   value={this.state.DateTime}
                   variant="outlined"
                   fullWidth
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
+                    endAdornment: (
+                      <InputAdornment position="end">
                         <DateIcon />
                       </InputAdornment>),
                   }}
@@ -131,15 +153,29 @@ class EventForm extends Component {
                   variant="outlined"
                   fullWidth
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
+                    endAdornment: (
+                      <InputAdornment position="end">
                         <TimeIcon />
                       </InputAdornment>),
                   }}
                 />
+                <TextField
+                  multiline
+                  rows={5}
+                  name="description"
+                  value={this.state.eventInfo.description}
+                  onChange={this.handleForm}
+                  id="description"
+                  autoComplete="description"
+                  label="Tell us about Your Event"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                />
                 <FormControl fullWidth>
                   <InputLabel htmlFor="select-multiple-chip">What kind of Event is It ?</InputLabel>
                   <Select
+                    label="what kind of Event is it?"
                     multiple
                     variant="outlined"
                     color="primary"
@@ -149,6 +185,7 @@ class EventForm extends Component {
                     className={classes.chipSelect}
                     renderValue={selected => (
                       <div className={classes.chipSelect}>
+                        {console.log(selected, 'LNKRNLNVELKNKL')}
                         {selected.map(value => (
                           <Chip
                             key={value}
@@ -184,7 +221,6 @@ class EventForm extends Component {
                   fullWidth
                 />
                 <TextField
-                  required
                   name="venue"
                   value={this.state.venue}
                   onChange={this.handleForm}
@@ -225,16 +261,18 @@ class EventForm extends Component {
                       </Zoom>
                     )
                     : (
-                      <Fab
-                        color="primary"
-                        aria-label="Add"
-                        className={classes.fab}
-                        onClick={this.FormSubmit}
-                        onMouseEnter={this.handleButton}
-                        type="submit"
-                      >
-                        <AddIcon />
-                      </Fab>
+                      <div className={classes.wrapper}>
+                        <Fab
+                          color="primary"
+                          aria-label="Add"
+                          className={classNames({ [classes.fab]: !success, [classes.buttonSuccess]: success })}
+                          onMouseEnter={this.handleButton}
+                        >
+                          {success ? <CheckIcon /> : <AddIcon /> }
+
+                        </Fab>
+                        {loading && <CircularProgress size={66} className={classes.fabProgress} />}
+                      </div>
                     )}
               </Paper>
             </form>
@@ -245,8 +283,24 @@ class EventForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  events: state.rootReducer.events,
+  loading: state.rootReducer.loading,
+  success: state.rootReducer.success,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getEvents: eventInfo => dispatch(getEvents(eventInfo)),
+});
+
+
 EventForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  getEvents: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(EventForm);
+export default connect(mapStateToProps,
+  mapDispatchToProps)(withStyles(styles, { withTheme: true })(EventForm));
